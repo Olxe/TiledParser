@@ -1,6 +1,5 @@
 # VS community
 *.vcxproj
-*.ooop
 
 # Prerequisites
 *.d
