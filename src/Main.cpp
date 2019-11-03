@@ -7,7 +7,7 @@ int main(void)
 
 	while(cpt > 0){
 		Parser::TiledParser parser;
-		Parser::MapNode* map = parser.ParseTMX("C:/Users/bugno/Documents/Programming/Projects/Finish_it!/Finish_it!/Res/Maps/", "stage_2.tmx");
+		Parser::MapNode* map = parser.ParseTMX("data/Maps/", "stage_2.tmx");
 
 		Builder::TiledBuilder builder;
 		builder.Build(map);
@@ -16,9 +16,12 @@ int main(void)
 		std::cout << cpt << std::endl;
 	}
 
-	while (1) {
+	/*while (1) {
 
-	}
+	}*/
 
+
+	//todo
+	//	-> Error management
 	return 0;
 }

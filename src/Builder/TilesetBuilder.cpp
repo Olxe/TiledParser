@@ -28,7 +28,6 @@ std::vector< Tile* > Builder::TilesetBuilder::Build(Parser::TilesetNode* tileset
 		for (auto tileset_child_node : tileset->GetChildNodes()) {
 			if (Parser::TileNode* tileNode = dynamic_cast<Parser::TileNode*>(tileset_child_node)) {
 				if (Parser::ImageNode* imageNode = dynamic_cast<Parser::ImageNode*>(tileset->GetFirstSpecificChild(Parser::NodeType::IMAGE))) {
-					//display("test");
 					tiles.push_back(new ObjectTile(tileNode->GetId(), tileset->GetFirstgid() + tileNode->GetId(),
 					directory + imageNode->GetSource(), (float)imageNode->GetWidth(), (float)imageNode->GetHeight()));
 
@@ -73,19 +72,14 @@ void Builder::TilesetBuilder::updateTiles(Parser::TileNode* tileNode, std::vecto
 				{
 					tile->SetProperties(propertiesNode);
 				}
-				else if (Parser::ObjectGroupNode* objectgtoup = dynamic_cast<Parser::ObjectGroupNode*>(tile_child_node)) {
-					this->readObjectGroup(objectgtoup, tile);
+				else if (Parser::ObjectGroupNode* objectgroup = dynamic_cast<Parser::ObjectGroupNode*>(tile_child_node)) {
+					for (auto objectgroup_child_node : objectgroup->GetChildNodes()) {
+						if (Parser::ObjectNode* objectNode = dynamic_cast<Parser::ObjectNode*>(objectgroup_child_node)) {
+							this->createObject(objectNode, tile);
+						}
+					}
 				}
 			}
-		}
-	}
-}
-
-void Builder::TilesetBuilder::readObjectGroup(Parser::ObjectGroupNode* objectgtoup, Tile* tile)
-{
-	for (auto objectgroup_child_node : objectgtoup->GetChildNodes()) {
-		if (Parser::ObjectNode* objectNode = dynamic_cast<Parser::ObjectNode*>(objectgroup_child_node)) {
-			this->createObject(objectNode, tile);
 		}
 	}
 }
@@ -93,7 +87,6 @@ void Builder::TilesetBuilder::readObjectGroup(Parser::ObjectGroupNode* objectgto
 void Builder::TilesetBuilder::createObject(Parser::ObjectNode* objectNode, Tile* tile)
 { 
 	for (auto object_child_node : objectNode->GetChildNodes()) {
-
 		Object* obj = nullptr;
 		if (Parser::EllipseNode* ellipseNode = dynamic_cast<Parser::EllipseNode*>(object_child_node))
 		{
@@ -120,10 +113,6 @@ void Builder::TilesetBuilder::createObject(Parser::ObjectNode* objectNode, Tile*
 		if (obj) {
 			if (Parser::PropertiesNode* properties = dynamic_cast<Parser::PropertiesNode*>(objectNode->GetFirstSpecificChild(Parser::NodeType::PROPERTIES))) {
 				obj->SetProperties(properties);
-				Parser::PropertyNode* property = properties->GetProperty("isSensor");
-				if (property) {
-					display(property->ToString());//crash
-				}
 			}
 			
 			tile->AddObject(obj);

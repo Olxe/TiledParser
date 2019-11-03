@@ -12,7 +12,6 @@ namespace Parser
 		~DataNode();
 
 		std::string GetEncoding() const { return m_encoding; }
-		//std::vector< int > GetData() const { return m_data; }
 		std::string GetData() const { return m_data; }
 
 	protected:
@@ -20,12 +19,8 @@ namespace Parser
 		void ParseChildTag(const tinyxml2::XMLElement* eChild) override {}
 
 	private:
-		//void parseCVS(const char* data);
-
-	private:
 		std::string m_encoding;
 		std::string m_data;
-		//std::vector< int > m_data;
 
 	};
 }

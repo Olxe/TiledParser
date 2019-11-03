@@ -22,8 +22,6 @@ namespace Builder
 	private:
 		void createTiles(Parser::TilesetNode* tileset, std::string directory, Parser::ImageNode* imageNode, std::vector< Tile* >& tiles);
 		void updateTiles(Parser::TileNode* tileNode, std::vector< Tile* >& tiles);
-
-		void readObjectGroup(Parser::ObjectGroupNode* objectgtoup, Tile* tile);
 		void createObject(Parser::ObjectNode* objectNode, Tile* tile);
 	};
 }

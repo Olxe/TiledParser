@@ -8,24 +8,26 @@ TiledBuilder::TiledBuilder()
 
 TiledBuilder::~TiledBuilder()
 {
+	clearVector(m_layouts);
 	clearVector(m_tiles);
 }
 
 void Builder::TiledBuilder::Build(Parser::MapNode* map)
 {
+	clearVector(m_layouts);
 	clearVector(m_tiles);
 
 	for (auto map_child_node : map->GetChildNodes()) {
-		if (Parser::TilesetNode* tileset = dynamic_cast<Parser::TilesetNode*>(map_child_node)) {
+		if (Parser::TilesetNode* tilesetNode = dynamic_cast<Parser::TilesetNode*>(map_child_node)) {
 			TilesetBuilder tilesetBuilder;
-			std::vector< Tile* > tiles = tilesetBuilder.Build(tileset, map->GetDirectory());
+			std::vector< Tile* > tiles = tilesetBuilder.Build(tilesetNode, map->GetDirectory());
 			m_tiles.insert(m_tiles.end(), tiles.begin(), tiles.end());
 		}
-		else if (Parser::LayerNode* layer = dynamic_cast<Parser::LayerNode*>(map_child_node)) {
-			display("layer");
+		else if (Parser::LayerNode* layerNode = dynamic_cast<Parser::LayerNode*>(map_child_node)) {
+			m_layouts.push_back(new LayerBuilder(layerNode, m_tiles));
 		}
 		if (Parser::ObjectGroupNode* objectGroup = dynamic_cast<Parser::ObjectGroupNode*>(map_child_node)) {
-			display("objectGroup");
+			m_layouts.push_back(new ObjectGroupBuilder(objectGroup, m_tiles));
 		}
 	}
 }

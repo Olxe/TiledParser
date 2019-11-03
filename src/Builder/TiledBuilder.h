@@ -2,6 +2,8 @@
 
 #include "../Parser/Nodes/mapnode.h"
 #include "TilesetBuilder.h"
+#include "Layers/LayerBuilder.h"
+#include "Layers/ObjectGroupBuilder.h"
 
 namespace Builder
 {
@@ -15,6 +17,7 @@ namespace Builder
 
 	private:
 		std::vector< Tile* > m_tiles;
+		std::vector< Layout* > m_layouts;
 	};
 }
 
